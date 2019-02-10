@@ -1,0 +1,343 @@
+
+LCD_USING_KEYBORD.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         0000019c  00000000  00000000  00000074  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .bss          00000001  00800060  00800060  00000210  2**0
+                  ALLOC
+  2 .comment      00000030  00000000  00000000  00000210  2**0
+                  CONTENTS, READONLY
+  3 .debug_aranges 00000090  00000000  00000000  00000240  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  4 .debug_info   0000083a  00000000  00000000  000002d0  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .debug_abbrev 00000261  00000000  00000000  00000b0a  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_line   000003a0  00000000  00000000  00000d6b  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_frame  00000170  00000000  00000000  0000110c  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_str    000001fc  00000000  00000000  0000127c  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_loc    000005e9  00000000  00000000  00001478  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_ranges 00000080  00000000  00000000  00001a61  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	0c 94 2a 00 	jmp	0x54	; 0x54 <__ctors_end>
+   4:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+   8:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+   c:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  10:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  14:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  18:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  1c:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  20:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  24:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  28:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  2c:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  30:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  34:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  38:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  3c:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  40:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  44:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  48:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  4c:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  50:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+
+00000054 <__ctors_end>:
+  54:	11 24       	eor	r1, r1
+  56:	1f be       	out	0x3f, r1	; 63
+  58:	cf e5       	ldi	r28, 0x5F	; 95
+  5a:	d4 e0       	ldi	r29, 0x04	; 4
+  5c:	de bf       	out	0x3e, r29	; 62
+  5e:	cd bf       	out	0x3d, r28	; 61
+
+00000060 <__do_clear_bss>:
+  60:	20 e0       	ldi	r18, 0x00	; 0
+  62:	a0 e6       	ldi	r26, 0x60	; 96
+  64:	b0 e0       	ldi	r27, 0x00	; 0
+  66:	01 c0       	rjmp	.+2      	; 0x6a <.do_clear_bss_start>
+
+00000068 <.do_clear_bss_loop>:
+  68:	1d 92       	st	X+, r1
+
+0000006a <.do_clear_bss_start>:
+  6a:	a1 36       	cpi	r26, 0x61	; 97
+  6c:	b2 07       	cpc	r27, r18
+  6e:	e1 f7       	brne	.-8      	; 0x68 <.do_clear_bss_loop>
+  70:	0e 94 b8 00 	call	0x170	; 0x170 <main>
+  74:	0c 94 cc 00 	jmp	0x198	; 0x198 <_exit>
+
+00000078 <__bad_interrupt>:
+  78:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+0000007c <lcmd>:
+char lcd_mode=0;		//sets lcd mode
+
+void lcmd(char a)		//COMMAND ROUTIN
+{	
+	const int d=20;
+	PORTB =a;
+  7c:	88 bb       	out	0x18, r24	; 24
+	PC0OFF;	//TO MAKE SINGLE PIN AS LOW
+  7e:	a8 98       	cbi	0x15, 0	; 21
+	PC1OFF;
+  80:	a9 98       	cbi	0x15, 1	; 21
+	PC2ON;	//TO MAKE SINGLE PIN AS HIGH
+  82:	aa 9a       	sbi	0x15, 2	; 21
+	#else
+		//round up by default
+		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+	#endif
+
+	__builtin_avr_delay_cycles(__ticks_dc);
+  84:	87 e8       	ldi	r24, 0x87	; 135
+  86:	93 e1       	ldi	r25, 0x13	; 19
+  88:	01 97       	sbiw	r24, 0x01	; 1
+  8a:	f1 f7       	brne	.-4      	; 0x88 <lcmd+0xc>
+  8c:	00 c0       	rjmp	.+0      	; 0x8e <lcmd+0x12>
+  8e:	00 00       	nop
+	_delay_ms(d);
+	PC2OFF;
+  90:	aa 98       	cbi	0x15, 2	; 21
+  92:	87 e8       	ldi	r24, 0x87	; 135
+  94:	93 e1       	ldi	r25, 0x13	; 19
+  96:	01 97       	sbiw	r24, 0x01	; 1
+  98:	f1 f7       	brne	.-4      	; 0x96 <lcmd+0x1a>
+  9a:	00 c0       	rjmp	.+0      	; 0x9c <lcmd+0x20>
+  9c:	00 00       	nop
+  9e:	08 95       	ret
+
+000000a0 <ldta>:
+	_delay_ms(d);
+}
+void ldta(char a)		//DATA ROUTIN
+{
+	const int d=20;
+	if (a=='\n')
+  a0:	8a 30       	cpi	r24, 0x0A	; 10
+  a2:	21 f4       	brne	.+8      	; 0xac <ldta+0xc>
+	{
+		lcmd(0xc0);
+  a4:	80 ec       	ldi	r24, 0xC0	; 192
+  a6:	0e 94 3e 00 	call	0x7c	; 0x7c <lcmd>
+		return;
+  aa:	08 95       	ret
+	}
+	PORTB =a;
+  ac:	88 bb       	out	0x18, r24	; 24
+	
+	PC0ON;
+  ae:	a8 9a       	sbi	0x15, 0	; 21
+	PC1OFF;
+  b0:	a9 98       	cbi	0x15, 1	; 21
+	PC2ON;
+  b2:	aa 9a       	sbi	0x15, 2	; 21
+  b4:	87 e8       	ldi	r24, 0x87	; 135
+  b6:	93 e1       	ldi	r25, 0x13	; 19
+  b8:	01 97       	sbiw	r24, 0x01	; 1
+  ba:	f1 f7       	brne	.-4      	; 0xb8 <ldta+0x18>
+  bc:	00 c0       	rjmp	.+0      	; 0xbe <ldta+0x1e>
+  be:	00 00       	nop
+	_delay_ms(d);
+	PC2OFF;
+  c0:	aa 98       	cbi	0x15, 2	; 21
+  c2:	87 e8       	ldi	r24, 0x87	; 135
+  c4:	93 e1       	ldi	r25, 0x13	; 19
+  c6:	01 97       	sbiw	r24, 0x01	; 1
+  c8:	f1 f7       	brne	.-4      	; 0xc6 <ldta+0x26>
+  ca:	00 c0       	rjmp	.+0      	; 0xcc <ldta+0x2c>
+  cc:	00 00       	nop
+  ce:	08 95       	ret
+
+000000d0 <lcmd4>:
+
+
+void lcmd4(char a)		//COMMAND ROUTIN
+{
+	const int d=20;
+	PORTB =(a&0xf0);
+  d0:	98 2f       	mov	r25, r24
+  d2:	90 7f       	andi	r25, 0xF0	; 240
+  d4:	98 bb       	out	0x18, r25	; 24
+	PC0OFF;	//TO MAKE SINGLE PIN AS LOW
+  d6:	a8 98       	cbi	0x15, 0	; 21
+	PC1OFF;
+  d8:	a9 98       	cbi	0x15, 1	; 21
+	PC2ON;	//TO MAKE SINGLE PIN AS HIGH
+  da:	aa 9a       	sbi	0x15, 2	; 21
+  dc:	e7 e8       	ldi	r30, 0x87	; 135
+  de:	f3 e1       	ldi	r31, 0x13	; 19
+  e0:	31 97       	sbiw	r30, 0x01	; 1
+  e2:	f1 f7       	brne	.-4      	; 0xe0 <lcmd4+0x10>
+  e4:	00 c0       	rjmp	.+0      	; 0xe6 <lcmd4+0x16>
+  e6:	00 00       	nop
+	_delay_ms(d);
+	PC2OFF;
+  e8:	aa 98       	cbi	0x15, 2	; 21
+  ea:	e7 e8       	ldi	r30, 0x87	; 135
+  ec:	f3 e1       	ldi	r31, 0x13	; 19
+  ee:	31 97       	sbiw	r30, 0x01	; 1
+  f0:	f1 f7       	brne	.-4      	; 0xee <lcmd4+0x1e>
+  f2:	00 c0       	rjmp	.+0      	; 0xf4 <lcmd4+0x24>
+  f4:	00 00       	nop
+	_delay_ms(d);
+	PORTB=((a<<4)&0xf0);
+  f6:	f0 e1       	ldi	r31, 0x10	; 16
+  f8:	8f 9f       	mul	r24, r31
+  fa:	c0 01       	movw	r24, r0
+  fc:	11 24       	eor	r1, r1
+  fe:	88 bb       	out	0x18, r24	; 24
+	PC0OFF;	//TO MAKE SINGLE PIN AS LOW
+ 100:	a8 98       	cbi	0x15, 0	; 21
+	PC1OFF;
+ 102:	a9 98       	cbi	0x15, 1	; 21
+	PC2ON;	//TO MAKE SINGLE PIN AS HIGH
+ 104:	aa 9a       	sbi	0x15, 2	; 21
+ 106:	87 e8       	ldi	r24, 0x87	; 135
+ 108:	93 e1       	ldi	r25, 0x13	; 19
+ 10a:	01 97       	sbiw	r24, 0x01	; 1
+ 10c:	f1 f7       	brne	.-4      	; 0x10a <lcmd4+0x3a>
+ 10e:	00 c0       	rjmp	.+0      	; 0x110 <lcmd4+0x40>
+ 110:	00 00       	nop
+	_delay_ms(d);
+	PC2OFF;
+ 112:	aa 98       	cbi	0x15, 2	; 21
+ 114:	e7 e8       	ldi	r30, 0x87	; 135
+ 116:	f3 e1       	ldi	r31, 0x13	; 19
+ 118:	31 97       	sbiw	r30, 0x01	; 1
+ 11a:	f1 f7       	brne	.-4      	; 0x118 <lcmd4+0x48>
+ 11c:	00 c0       	rjmp	.+0      	; 0x11e <lcmd4+0x4e>
+ 11e:	00 00       	nop
+ 120:	08 95       	ret
+
+00000122 <initialize_LCD>:
+	else
+	ldta(a[i]);
+}	 
+
+void initialize_LCD(char mode,char a)		//INTIALIZE MODES(MODE,CUSOR_STATE)
+{
+ 122:	cf 93       	push	r28
+ 124:	c6 2f       	mov	r28, r22
+	
+	
+	if(mode==4)
+ 126:	84 30       	cpi	r24, 0x04	; 4
+ 128:	81 f4       	brne	.+32     	; 0x14a <initialize_LCD+0x28>
+	{
+		lcmd4(0x02);
+ 12a:	82 e0       	ldi	r24, 0x02	; 2
+ 12c:	0e 94 68 00 	call	0xd0	; 0xd0 <lcmd4>
+		lcmd4(0x28);
+ 130:	88 e2       	ldi	r24, 0x28	; 40
+ 132:	0e 94 68 00 	call	0xd0	; 0xd0 <lcmd4>
+		lcmd4(a);
+ 136:	8c 2f       	mov	r24, r28
+ 138:	0e 94 68 00 	call	0xd0	; 0xd0 <lcmd4>
+		lcmd(0x01);
+ 13c:	81 e0       	ldi	r24, 0x01	; 1
+ 13e:	0e 94 3e 00 	call	0x7c	; 0x7c <lcmd>
+		lcd_mode=4;
+ 142:	84 e0       	ldi	r24, 0x04	; 4
+ 144:	80 93 60 00 	sts	0x0060, r24
+ 148:	0c c0       	rjmp	.+24     	; 0x162 <initialize_LCD+0x40>
+	}
+	else
+	{
+		lcmd(0x38);
+ 14a:	88 e3       	ldi	r24, 0x38	; 56
+ 14c:	0e 94 3e 00 	call	0x7c	; 0x7c <lcmd>
+		lcmd(a);
+ 150:	8c 2f       	mov	r24, r28
+ 152:	0e 94 3e 00 	call	0x7c	; 0x7c <lcmd>
+		lcmd(0x01);
+ 156:	81 e0       	ldi	r24, 0x01	; 1
+ 158:	0e 94 3e 00 	call	0x7c	; 0x7c <lcmd>
+		lcd_mode=8;
+ 15c:	88 e0       	ldi	r24, 0x08	; 8
+ 15e:	80 93 60 00 	sts	0x0060, r24
+	}
+	
+	
+	
+}
+ 162:	cf 91       	pop	r28
+ 164:	08 95       	ret
+
+00000166 <rx>:
+	}
+}
+char rx()
+{
+	char a;
+	while(check_RXC);
+ 166:	5f 9b       	sbis	0x0b, 7	; 11
+ 168:	fe cf       	rjmp	.-4      	; 0x166 <rx>
+	a=UDR;
+ 16a:	8c b1       	in	r24, 0x0c	; 12
+	RXC_reset;
+ 16c:	5f 9a       	sbi	0x0b, 7	; 11
+	return a;
+}
+ 16e:	08 95       	ret
+
+00000170 <main>:
+#include <atmega/lcdheader.h>
+#include <atmega/USART.h>
+
+int main(void)
+{	
+	baudX2;
+ 170:	59 9a       	sbi	0x0b, 1	; 11
+	TXON;
+ 172:	53 9a       	sbi	0x0a, 3	; 10
+	RXON;
+ 174:	54 9a       	sbi	0x0a, 4	; 10
+	initialize_UCSRC;
+ 176:	86 e8       	ldi	r24, 0x86	; 134
+ 178:	80 bd       	out	0x20, r24	; 32
+#define TXC_reset UCSRA|=(1<<TXC)
+
+
+void baud_rate(int rate)
+{
+	UBRRH=0x00;
+ 17a:	10 bc       	out	0x20, r1	; 32
+	{
+		UBRRL=0X05;
+	}
+	else if(rate==4800)
+	{
+		UBRRL=0X0C;
+ 17c:	8c e0       	ldi	r24, 0x0C	; 12
+ 17e:	89 b9       	out	0x09, r24	; 9
+	baud_rate(4800);		
+	DDRC=DDRB=0xff;
+ 180:	8f ef       	ldi	r24, 0xFF	; 255
+ 182:	87 bb       	out	0x17, r24	; 23
+ 184:	84 bb       	out	0x14, r24	; 20
+	initialize_LCD(8,curon);
+ 186:	6e e0       	ldi	r22, 0x0E	; 14
+ 188:	88 e0       	ldi	r24, 0x08	; 8
+ 18a:	0e 94 91 00 	call	0x122	; 0x122 <initialize_LCD>
+    while(1)
+    {
+		
+		ldta(rx());
+ 18e:	0e 94 b3 00 	call	0x166	; 0x166 <rx>
+ 192:	0e 94 50 00 	call	0xa0	; 0xa0 <ldta>
+ 196:	fb cf       	rjmp	.-10     	; 0x18e <main+0x1e>
+
+00000198 <_exit>:
+ 198:	f8 94       	cli
+
+0000019a <__stop_program>:
+ 19a:	ff cf       	rjmp	.-2      	; 0x19a <__stop_program>
